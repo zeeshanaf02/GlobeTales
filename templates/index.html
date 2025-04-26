@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GlobeTales</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="fade-in">
+
+  <!-- Theme Toggle -->
+  <div class="theme-toggle">
+    <button onclick="toggleTheme()">🌗 Toggle Mode</button>
+  </div>
+
+  <div class="content">
+    <header>
+      <!-- Logo Integration -->
+      <img src="{{ url_for('static', filename='images/globetales_logo.svg') }}" alt="GlobeTales Logo" class="logo">
+      <h1>GlobeTales</h1>
+      <p>Travel stories with culture, language & fun</p>
+    </header>
+
+    <main>
+      <form method="POST">
+        <label for="country">🌍 Choose a country:</label>
+        <select id="country" name="country" required>
+          <option value="">-- Select --</option>
+          {% for name in countries %}
+            <option value="{{ name }}" {% if selected_country == name %}selected{% endif %}>{{ name }}</option>
+          {% endfor %}
+        </select>
+        <button type="submit">✈️ Tell me a story!</button>
+      </form>
+
+      {% if story %}
+        <section class="story-section">
+          <h2>📖 Your Travel Story</h2>
+          <p>{{ story }}</p>
+
+          <h3>🌐 Translated Story</h3>
+          <p>{{ translated }}</p>
+
+          <h3>🔊 Listen to the Story</h3>
+          <audio controls>
+            <source src="{{ url_for('static', filename=audio_file) }}" type="audio/mpeg">
+            Your browser does not support audio playback.
+          </audio>
+        </section>
+      {% endif %}
+    </main>
+
+    <footer>
+      <p>&copy; 2025 GlobeTales. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <script>
+    function toggleTheme() {
+      document.body.classList.toggle("dark-mode");
+    }
+  </script>
+</body>
+</html>
